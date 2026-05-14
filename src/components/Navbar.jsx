@@ -1,16 +1,30 @@
-function Navbar() {
+import { NavLink } from "react-router-dom";
+import '../styles/components/NavBar.scss';
+
+const Navbar = () => {
     return (
         <header className="navbar">
             <div className="navbar__logo">News</div>
 
             <nav className="navbar__links">
-                <a href="#">Home</a>
-                <a href="#">World</a>
-                <a href="#">Tech</a>
-                <a href="#">Sports</a>
+                <NavLink
+                    end to="/"
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                    >Home
+                </NavLink>
+
+                <NavLink
+                    to="/sources"
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                    >Sources
+                </NavLink>
             </nav>
         </header>
     );
-}
+};
 
 export default Navbar;

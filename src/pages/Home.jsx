@@ -1,47 +1,21 @@
-import { useEffect, useState } from 'react'
-import { getNews } from "../services/newsService";
-import NewsCard from '../components/NewsCard';
+import { Link } from 'react-router-dom';
 import '../styles/pages/Home.scss';
-import SkeletonCard from '../components/SkeletonCard';
 
-function Home() {
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const skeletons = [1, 2, 3, 4, 5, 6];
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const articles = await getNews();
-                setNews(articles);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoading(false);
-            };
-        };
-
-        fetchData();
-    }, [])
-
+const Home = () => {
     return (
-        <div className="news-grid">
-            {
-                loading
-                    ? skeletons.map((skeleton) => (
-                        <SkeletonCard
-                            key={skeleton}
-                        />
-                    ))
-                    : news.map((article) => (
-                        <NewsCard
-                            key={article.url}
-                            article={article}
-                        />
-                    ))
-            }
-        </div>
-    );
+        <main className='home'>
+            <section className="home__hero">
+                <h1 className='home__title'>Stay informed</h1>
+                <p className='home__subtitle'>Real-time news from trusted global sources.</p>
+                <nav className='home__navigation'>
+                    <Link to="/sources" className='home__nav-card'>
+                        <h2>Sources</h2>
+                        <p>Browse global news providers.</p>
+                    </Link>
+                </nav>
+            </section>
+        </main>
+    )
 };
 
 export default Home;
