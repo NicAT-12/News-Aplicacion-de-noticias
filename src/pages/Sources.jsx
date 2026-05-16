@@ -10,9 +10,10 @@ const Sources = () => {
     const [loading, setLoading] = useState(true);
     const [fail, setFail] = useState(null);
     const [search, setSearch] = useState("");
-    
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
     const skeletons = [1, 2, 3, 4, 5, 6];
-    const filteredSources = sources.filter((source) => source.name.toLowerCase().includes(search.toLocaleLowerCase()));
+    const filteredSources = sources.filter((source) => source.name.toLowerCase().includes(debouncedSearch.toLowerCase()));
 
     useEffect(() => {
         async function fetchData() {
@@ -27,9 +28,19 @@ const Sources = () => {
         };
 
         fetchData();
-    }, [])
+    }, []);
 
-    if (fail) return <h1>{fail}</h1>
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 300)
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [search]);
+
+    if (fail) return <h1>{fail}</h1>;
 
     return (
         <main className="sources">
@@ -38,7 +49,11 @@ const Sources = () => {
                 <p>Explore trusted media providers from around the world.</p>
             </header>
             <div className="sources__search">
-                <input placeholder='Buscar...' value={search} onChange={(e) => {setSearch(e.target.value)}}/>
+                <input 
+                    placeholder='Buscar...' 
+                    value={search} 
+                    onChange={(e) => { setSearch(e.target.value) }} 
+                />
             </div>
             <div className="source-grid">
                 {
@@ -48,12 +63,15 @@ const Sources = () => {
                                 key={skeleton}
                             />
                         ))
-                        : filteredSources.map((source) => (
-                            <SourceCard
-                                key={source.id}
-                                source={source}
-                            />
-                        ))
+                        :
+                        filteredSources.length === 0
+                            ? <h3 className="source-grid__empty">No hay resultados</h3>
+                            : filteredSources.map((source) => (
+                                <SourceCard
+                                    key={source.id}
+                                    source={source}
+                                />
+                            ))
                 }
             </div>
         </main>
