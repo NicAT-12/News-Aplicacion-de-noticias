@@ -2,15 +2,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import Sources from './pages/Sources';
+import Articles from './pages/Articles';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path='/' element={<Home />}></Route>
-          <Route path='/sources' element={<Sources />}></Route>
+          <Route path='/' element={<Home />} />
+          <Route path='/articles' element={<Articles />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/*' element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

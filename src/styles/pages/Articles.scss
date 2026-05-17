@@ -1,0 +1,105 @@
+@use "../abstracts/variables" as *;
+
+.articles {
+    min-height: 100vh;
+    padding: 6rem 1.5rem 5rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.articles__header {
+    width: min(100%, $container-width);
+    margin: 0 auto 2.5rem;
+}
+
+.articles__eyebrow {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-soft);
+}
+
+.articles__title {
+    max-width: 760px;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.articles__description {
+    max-width: 620px;
+    margin-top: 1.4rem;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+}
+
+.articles__toolbar {
+    width: min(100%, $container-width);
+    margin: 0 auto 1.5rem;
+}
+
+.articles__search {
+    width: 100%;
+    max-width: 420px;
+    height: 3.2rem;
+    padding: 0 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-pill;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    outline: none;
+    transition:
+        border-color $transition-base,
+        background-color $transition-base,
+        color $transition-base;
+}
+
+.articles__search::placeholder {
+    color: var(--color-soft);
+}
+
+.articles__search:focus {
+    border-color: var(--color-text);
+}
+
+.articles__grid {
+    width: min(100%, $container-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.articles__empty {
+    grid-column: 1 / -1;
+    margin: 2rem 0;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+
+@media (max-width: 960px) {
+    .articles__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .articles {
+        padding-top: 4.5rem;
+    }
+
+    .articles__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .articles__search {
+        max-width: 100%;
+    }
+}

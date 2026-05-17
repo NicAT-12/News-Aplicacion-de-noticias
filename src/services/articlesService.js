@@ -1,7 +1,9 @@
-export async function getSource() {
+import { mockArticles } from "./mockArticles";
+
+export async function getArticles() {
     try {
         const response = await fetch(
-            `https://newsapi.org/v2/top-headlines/sources?apiKey=${import.meta.env.VITE_API_KEY}`
+            `https://gnews.io/api/v4/search?q=technology&apikey=${import.meta.env.VITE_API_KEY}`
         );
 
         if (!response.ok) {
@@ -10,10 +12,12 @@ export async function getSource() {
 
         const data = await response.json();
         console.log(data);
-        return data.sources;
 
+        return data.articles
     } catch (error) {
         console.log("5 - ERROR EN getSource", error);
-        throw error;
+        
+        return mockArticles;
     };
+    
 };
