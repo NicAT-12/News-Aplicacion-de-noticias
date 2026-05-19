@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../services/articlesService";
+
 import ArticleCard from "../components/ArticleCard";
 import SkeletonCard from "../components/SkeletonCard";
 
@@ -11,6 +12,7 @@ const Articles = () => {
     const [fail, setFail] = useState(null);
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("top");
 
     const skeletons = [1, 2, 3, 4, 5, 6];
 
@@ -21,7 +23,7 @@ const Articles = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const articles = await getArticles();
+                const articles = await getArticles(selectedCategory);
                 setArticles(articles);
             } catch (error) {
                 setFail(error.message);
@@ -31,7 +33,7 @@ const Articles = () => {
         }
 
         fetchData();
-    }, []);
+    }, [selectedCategory]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -44,6 +46,16 @@ const Articles = () => {
     }, [search]);
 
     if (fail) return <h1>{fail}</h1>;
+
+    const categories = [
+        "top",
+        "business",
+        "technology",
+        "entertainment",
+        "sports",
+        "science",
+        "health"
+    ];
 
     return (
         <main className="articles">
@@ -62,6 +74,22 @@ const Articles = () => {
             </header>
 
             <section className="articles__toolbar">
+                <div className="articles__categories">
+                    {categories.map((category) => (
+                        <button
+                            key={category}
+                            type="button"
+                            className={
+                                selectedCategory === category
+                                    ? "articles__category articles__category--active"
+                                    : "articles__category"
+                            }
+                            onClick={() => setSelectedCategory(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
                 <input
                     className="articles__search"
                     type="text"
@@ -81,7 +109,7 @@ const Articles = () => {
                             ? <h3 className="articles__empty">No articles found</h3>
                             : filteredArticles.map((article) => (
                                 <ArticleCard
-                                    key={article.url}
+                                    key={article.article_id}
                                     article={article}
                                 />
                             ))

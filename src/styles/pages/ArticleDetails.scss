@@ -1,0 +1,122 @@
+@use "../abstracts/variables" as *;
+
+.article-details {
+    min-height: 100vh;
+    padding: 6rem 1.5rem 5rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+}
+
+.article-details__container {
+    width: min(100%, 860px);
+    margin: 0 auto;
+}
+
+.article-details__back {
+    display: inline-flex;
+    margin-bottom: 1.5rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: color $transition-base;
+}
+
+.article-details__back:hover {
+    color: var(--color-text);
+}
+
+.article-details__image-wrapper {
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: $radius-lg;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.article-details__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.article-details__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.article-details__meta span {
+    padding: 0.45rem 0.75rem;
+    border-radius: $radius-pill;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+.article-details__title {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.article-details__description {
+    margin-top: 1.5rem;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+}
+
+.article-details__content {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.article-details__content p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--color-muted);
+}
+
+.article-details__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.5rem;
+    min-height: 3rem;
+    padding: 0 1.4rem;
+    border-radius: $radius-pill;
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: 1px solid var(--color-text);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        transform $transition-base,
+        opacity $transition-base;
+}
+
+.article-details__button:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+@media (max-width: 640px) {
+    .article-details {
+        padding-top: 4.5rem;
+    }
+
+    .article-details__title {
+        line-height: 1.05;
+    }
+}

@@ -1,9 +1,27 @@
-import { mockArticles } from "./mockArticles";
+import { mockArticles } from "../services/mockArticles";
 
-export async function getArticles() {
+const CACHE_TIME = 1000 * 60 * 60;
+
+export async function getArticles(category = "top") {
+    const cacheKey = `articles-${category}`;
+    const cachedArticles = localStorage.getItem(cacheKey);
+
+    if (cachedArticles) {
+        const parsedCache = JSON.parse(cachedArticles);
+        const isCacheValid = Date.now() - parsedCache.timestamp < CACHE_TIME;
+
+        if (isCacheValid) {
+            return parsedCache.data;
+        }
+
+        localStorage.removeItem(cacheKey);
+    }
+
     try {
+        const categoryParam = category === "top" ? "" : `&category=${category}`;
+
         const response = await fetch(
-            `https://gnews.io/api/v4/search?q=technology&apikey=${import.meta.env.VITE_API_KEY}`
+            `https://newsdata.io/api/1/latest?apikey=${import.meta.env.VITE_API_KEY}&language=en${categoryParam}`
         );
 
         if (!response.ok) {
@@ -12,12 +30,27 @@ export async function getArticles() {
 
         const data = await response.json();
         console.log(data);
-
-        return data.articles
-    } catch (error) {
-        console.log("5 - ERROR EN getSource", error);
         
-        return mockArticles;
-    };
-    
-};
+        const articles = data.results || [];
+
+        localStorage.setItem(
+            cacheKey,
+            JSON.stringify({
+                data: articles,
+                timestamp: Date.now()
+            })
+        );
+
+        
+
+        return articles;
+    } catch (error) {
+        console.log("ERROR EN getArticles", error);
+
+        return category === "top"
+            ? mockArticles
+            : mockArticles.filter((article) =>
+                article.category.includes(category)
+            );
+    }
+}
