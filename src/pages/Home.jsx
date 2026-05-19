@@ -1,4 +1,8 @@
+import { Link } from "react-router-dom";
+
 import "../styles/pages/Home.scss";
+import Articles from "./Articles";
+import About from "./About";
 
 const Home = () => {
     return (
@@ -18,13 +22,13 @@ const Home = () => {
                     </p>
 
                     <div className="home__actions">
-                        <a href="/articles" className="home__button home__button--primary">
+                        <Link to="/articles" element={<Articles />} className="home__button home__button--primary">
                             Explore News
-                        </a>
+                        </Link>
 
-                        <a href="/about" className="home__button home__button--secondary">
+                        <Link to="/about" element={<About />} className="home__button home__button--secondary">
                             Learn More
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
